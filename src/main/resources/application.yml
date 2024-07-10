@@ -23,7 +23,11 @@ springdoc:
     path: /v3/api-docs
   swagger-ui:
     path: /swagger-ui.html
-
+security:
+  jwt:
+    token:
+      secret-key: ${SECURITY_JWT_TOKEN_SECRET_KEY}
+      expire-length: ${SECURITY_JWT_TOKEN_EXPIRE_LENGTH}
 ---
 
 spring:
@@ -56,7 +60,12 @@ spring:
     username: sa
     password:
   jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
   h2:
     console:
       enabled: true

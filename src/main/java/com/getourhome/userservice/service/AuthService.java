@@ -2,7 +2,6 @@ package com.getourhome.userservice.service;
 
 import com.getourhome.userservice.dto.request.LoginRequestDto;
 import com.getourhome.userservice.dto.request.UserRegisterDto;
-import com.getourhome.userservice.dto.response.UserResponseDto;
 import com.getourhome.userservice.entity.User;
 import com.getourhome.userservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,17 +26,15 @@ public class AuthService {
 
     public void registerUser(UserRegisterDto userRegisterDto) {
         User user = userRegisterDto.toEntity(passwordEncoder);
+        userRepository.save(user);
     }
 
-    public UserResponseDto login(LoginRequestDto loginRequestDto) {
+    public User login(LoginRequestDto loginRequestDto) {
         User user = userRepository.findByUserId(loginRequestDto.getUserId()).orElse(null);
         if (user == null || !passwordEncoder.matches(loginRequestDto.getPassword(), user.getPassword())) {
             return null;
         }
 
-        return UserResponseDto.builder()
-                .id(user.getId())
-                .userId(user.getUserId())
-                .build();
+        return user;
     }
 }

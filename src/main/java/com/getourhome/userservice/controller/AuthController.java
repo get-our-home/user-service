@@ -2,8 +2,9 @@ package com.getourhome.userservice.controller;
 
 import com.getourhome.userservice.dto.request.LoginRequestDto;
 import com.getourhome.userservice.dto.request.UserRegisterDto;
-import com.getourhome.userservice.dto.response.UserResponseDto;
+import com.getourhome.userservice.entity.User;
 import com.getourhome.userservice.service.AuthService;
+import com.getourhome.userservice.util.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,8 @@ import java.util.Map;
 @RestController
 public class AuthController {
     private final AuthService authService;
+    private final JwtTokenProvider jwtTokenProvider;
+
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody UserRegisterDto userRegisterDto) {
@@ -36,15 +39,15 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody LoginRequestDto loginRequestDto) {
-        UserResponseDto responseDto = authService.login(loginRequestDto);
-        if (responseDto == null) {
+        User user = authService.login(loginRequestDto);
+        if (user == null) {
             Map<String, String> response = new HashMap<>();
             response.put("error", "Invalid username or password");
             return ResponseEntity.badRequest().body(response);
         }
 
         // Normally you would return a JWT or a session token here
-        return ResponseEntity.ok(responseDto);
+        // return ResponseEntity.ok(responseDto);
+        return ResponseEntity.ok(jwtTokenProvider.createToken(user.getId(), user.getUserId()));
     }
-
 }
