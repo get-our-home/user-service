@@ -9,4 +9,6 @@ import lombok.Getter;
 public class UserResponseDto {
     @JsonProperty("jwt")
     private String jwt;
+
+    private String role;
 }

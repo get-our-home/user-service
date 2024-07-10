@@ -101,6 +101,22 @@ class JwtTokenProviderTest {
         assertThat(extractedUserPk).isEqualTo(userPk);
     }
 
+
+    @Test
+    @DisplayName("사용자 ID, UUID로 createTokenWithoutExpiration 생성 토큰 getRole 테스트")
+    void givenValidTokenNoExpiration_whenGetUserPk_thenReturnRole() {
+        // Given
+        UUID userPk = UUID.randomUUID();
+        String userId = "tester";
+        String token = jwtTokenProvider.createTokenWithoutExpiration(userPk, userId);
+
+        // When
+        String extractedUserPk = jwtTokenProvider.getRole(token);
+
+        // Then
+        assertThat(extractedUserPk).isEqualTo("USER");
+    }
+
     @Test
     @DisplayName("사용자 ID, UUID로 createToken 정상동작 테스트")
     void givenUserIdAndUserPk_whenCreateToken_thenReturnToken() {
@@ -158,5 +174,20 @@ class JwtTokenProviderTest {
 
         // Then
         assertThat(extractedUserPk).isEqualTo(userPk);
+    }
+
+    @Test
+    @DisplayName("사용자 ID, UUID로 createToken 생성 토큰 getRole 테스트")
+    void givenValidToken_whenGetUserPk_thenReturnRole() {
+        // Given
+        UUID userPk = UUID.randomUUID();
+        String userId = "tester";
+        String token = jwtTokenProvider.createToken(userPk, userId);
+
+        // When
+        String extractedUserPk = jwtTokenProvider.getRole(token);
+
+        // Then
+        assertThat(extractedUserPk).isEqualTo("USER");
     }
 }

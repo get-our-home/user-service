@@ -37,7 +37,9 @@ public class AuthController {
             @ApiResponse(responseCode = "200", description = "회원가입 성공",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = BaseResponseDto.class)) }),
-            @ApiResponse(responseCode = "400", description = "유저 ID 또는 비밀번호 중복",
+            @ApiResponse(responseCode = "400", description = "사용자 ID 중복",
+                    content = @Content),
+            @ApiResponse(responseCode = "400", description = "사용자 이메일 중복",
                     content = @Content)})
     public ResponseEntity<?> registerUser(@RequestBody UserRegisterDto userRegisterDto) {
         if (authService.findByUserId(userRegisterDto.getUserId()).isPresent()) {
@@ -74,6 +76,7 @@ public class AuthController {
 
         UserResponseDto userResponseDto = UserResponseDto
                 .builder()
+                .role("USER")
                 .jwt(jwtTokenProvider.createTokenWithoutExpiration(user.getId(), user.getUserId()))
                 .build();
         return ResponseEntity.ok(userResponseDto);
