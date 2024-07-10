@@ -74,7 +74,7 @@ public class AuthController {
 
         UserResponseDto userResponseDto = UserResponseDto
                 .builder()
-                .jwt(jwtTokenProvider.createToken(user.getId(), user.getUserId()))
+                .jwt(jwtTokenProvider.createTokenWithoutExpiration(user.getId(), user.getUserId()))
                 .build();
         return ResponseEntity.ok(userResponseDto);
     }

@@ -10,6 +10,7 @@ import lombok.Getter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Getter
+@Builder(builderMethodName = "newBuilder")
 @Schema(title = "회원가입 요청 DTO")
 public class UserRegisterDto {
     @NotBlank(message = "사용자 아이디를 입력해주세요")
