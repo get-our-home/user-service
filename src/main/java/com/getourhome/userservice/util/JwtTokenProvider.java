@@ -16,6 +16,7 @@ import java.util.UUID;
 public class JwtTokenProvider {
     private final SecretKey secretKey;
     private final Long validityInMilliseconds;
+    private final String role = "USER";
 
     public JwtTokenProvider(
             @Value("${security.jwt.token.secret-key}") String secretKey,
@@ -33,6 +34,7 @@ public class JwtTokenProvider {
         return Jwts.builder()
                 .claim("id", id.toString())
                 .claim("userId", userId)
+                .claim("role", role)
                 .issuedAt(now)
                 .expiration(validity)
                 .signWith(secretKey)
@@ -48,6 +50,7 @@ public class JwtTokenProvider {
         return Jwts.builder()
                 .claim("id", id.toString())
                 .claim("userId", userId)
+                .claim("role", role)
                 .signWith(secretKey)
                 .compact();
     }
@@ -84,5 +87,13 @@ public class JwtTokenProvider {
         return UUID.fromString(idStr);
     }
 
+    public String getRole(String token) {
+        return Jwts.parser()
+                .verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .get("role", String.class);
+    }
 
 }
