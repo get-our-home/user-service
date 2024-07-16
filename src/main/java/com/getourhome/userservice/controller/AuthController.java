@@ -44,12 +44,12 @@ public class AuthController {
     public ResponseEntity<?> registerUser(@RequestBody UserRegisterDto userRegisterDto) {
         if (authService.findByUserId(userRegisterDto.getUserId()).isPresent()) {
             Map<String, String> response = new HashMap<>();
-            response.put("error", "User Id already exists");
+            response.put("error", "이미 존재하는 유저이이디 입니다.");
             return ResponseEntity.badRequest().body(response);
         }
         if (authService.findByEmail(userRegisterDto.getEmail()).isPresent()) {
             Map<String, String> response = new HashMap<>();
-            response.put("error", "Email already exists");
+            response.put("error", "이미 존재하는 이메일입니다.");
             return ResponseEntity.badRequest().body(response);
         }
         authService.registerUser(userRegisterDto);
@@ -70,7 +70,7 @@ public class AuthController {
         User user = authService.login(loginRequestDto);
         if (user == null) {
             Map<String, String> response = new HashMap<>();
-            response.put("error", "Invalid username or password");
+            response.put("error", "유효하지 않은 이메일, 비밀번호입니다.\n다시 확인해주세요.");
             return ResponseEntity.badRequest().body(response);
         }
 
