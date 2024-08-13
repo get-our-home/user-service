@@ -1,0 +1,23 @@
+replicaCount: 1
+
+image:
+  repository: wonjun0120/goh-user-service
+  tag: "latest"
+  pullPolicy: Always
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: false
+
+resources:
+  requests:
+    memory: "512Mi"
+    cpu: "250m"
+  limits:
+    memory: "1Gi"
+    cpu: "500m"
+
+namespace: getourhome
