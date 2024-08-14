@@ -1,0 +1,14 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: user-service-ingressroute
+  namespace: getourhome
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: PathPrefix(`/api/users`)
+      kind: Rule
+      services:
+        - name: user-service
+          port: 8080

@@ -10,7 +10,8 @@ service:
   port: 8080
 
 ingress:
-  enabled: false
+  enabled: true
+  host: minikube.local
 
 resources:
   requests:
