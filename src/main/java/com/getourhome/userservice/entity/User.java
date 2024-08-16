@@ -40,5 +40,14 @@ public class User {
     @Setter
     @Column(nullable = false, unique = true)
     private String email;
+
+    @Setter
+    @Column(nullable = true)
+    private String signUpPath;
+
+    @Setter
+    @Column(nullable = true)
+    private String preferredPropertyType;
+
 }
 

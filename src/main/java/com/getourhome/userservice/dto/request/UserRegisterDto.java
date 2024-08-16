@@ -32,6 +32,12 @@ public class UserRegisterDto {
     @Schema(description = "사용자 이메일", example = "tester@tests.com")
     private String email;
 
+    @Schema(description = "가입 경로(지인, 광고, 검색, 기타)", example = "지인")
+    private String signUpPath;
+
+    @Schema(description = "매물 선호 타입", example = "월세")
+    private String preferredPropertyType;
+
     @Builder
     public User toEntity(PasswordEncoder passwordEncoder) {
         return User.builder()
@@ -40,6 +46,8 @@ public class UserRegisterDto {
                 .username(username)
                 .phoneNumber(phoneNumber)
                 .email(email)
+                .signUpPath(signUpPath)
+                .preferredPropertyType(preferredPropertyType)
                 .build();
     }
 }
